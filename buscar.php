@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Buscar Frases</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
 <body>
     <div class="container">
         <h1>Buscar Frases</h1>
@@ -15,7 +17,7 @@
                 <input type="text" class="form-control" id="filme" name="filme">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <button type="button" class="btn btn-primary" onclick="buscar()">Buscar</button>
             </div>
         </form>
         <hr>
@@ -26,11 +28,9 @@
                 <th>Filme</th>
                 <th>Ano</th>
             </tr>
-            <tr>
-                <td>Frase 1</td>
-                <td>Filme</td>
-                <td>1995</td>
-            </tr>
+            <tbody id="corpo_tabela">
+
+            </tbody>
         </table>
         <hr>
 
@@ -45,6 +45,20 @@
 
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function buscar() {
+            $.getJSON('endpoints/buscar.php?q=' + filme.value, function(dados) {
+                // Limpar a tabela:
+				corpo_tabela.innerHTML = "";
+
+					// Percorrer o array vindo do json:
+					$(dados).each(function(item){
+						$("#corpo_tabela").append("<tr><td>"+this.frase+"</td><td>"+this.filme+"</td><td>"+this.ano+"</td></tr>")
+					})
+				})
+        }
+    </script>
 </body>
 
 </html>
